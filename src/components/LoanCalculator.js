@@ -15,7 +15,6 @@ export default class LoanCalculator extends Component {
     };
 
     Axios.get(`https://ftl-frontend-test.herokuapp.com/interest?amount=${this.state.loanAmount}&numMonths=${this.state.duration}`).then((res) => {
-      //console.log(res);
       this.setState({
         loanAmount: 500,
         duration: 6,
@@ -25,7 +24,6 @@ export default class LoanCalculator extends Component {
         principal: res.data.principal.amount
       })
     });
-    //console.log(this.state);
     
   }
 
@@ -33,7 +31,6 @@ export default class LoanCalculator extends Component {
     value = Number.parseInt(value);
     
     Axios.get(`https://ftl-frontend-test.herokuapp.com/interest?amount=${value}&numMonths=${this.state.duration}`).then((res) => {
-      //console.log(res);
       this.setState({
         ...this.state,
         loanAmount: value,
@@ -43,13 +40,11 @@ export default class LoanCalculator extends Component {
         principal: res.data.principal.amount
       })
     });
-    //console.log(this.state);
   }
 
   handleChangeDuration = (value) => {
     value = Number.parseInt(value);
     Axios.get(`https://ftl-frontend-test.herokuapp.com/interest?amount=${this.state.loanAmount}&numMonths=${value}`).then((res) => {
-      //console.log(res);
       this.setState({
         ...this.state,
         duration: value,
@@ -59,14 +54,13 @@ export default class LoanCalculator extends Component {
         principal: res.data.principal.amount
       })
     });
-    //console.log(this.state);
   }
  
   render() {
     
     return (
       <div>
-      <div className="bg-danger pt-2 pb-1">
+      <div className="bg-primary pt-2 pb-1">
         <h3 className="text-center text-light">Loan Calculator</h3>
       </div>
       <div className="container">
@@ -79,8 +73,16 @@ export default class LoanCalculator extends Component {
               value={this.state.loanAmount}
               formatLabel={value => value+'$'}
               onChangeComplete = {this.handleChangeLoanAmount}
-              onChange = {this.handleChangeLoanAmount}
-              step={500}
+              onChange = {
+                (value) => {
+                  console.log("Amount Change")
+                  this.setState({
+                    ...this.state,
+                    loanAmount: value
+                  })
+                }
+              }
+              step={100}
             />
           </div>
           <div className="form-group">
@@ -91,25 +93,38 @@ export default class LoanCalculator extends Component {
               minValue={6}
               value={this.state.duration}
               formatLabel={value => value+'m'}
-              onChange = {this.handleChangeDuration}
+              onChange = {
+                (value) => {
+                  console.log("Amount Change")
+                  this.setState({
+                    ...this.state,
+                    duration: value
+                  })
+                }
+              }
+              onChangeComplete = { this.handleChangeDuration }
             />
           </div>
           <div className="form-group">
             <label >Monthly payment</label>
             <h3>{this.state.monthlyPayment}$</h3>
           </div>
+          <hr />
           <div className="form-group">
             <label >Interest Rate</label>
             <h3>{this.state.interestRate}%</h3>
           </div>
+          <hr />
           <div className="form-group">
             <label >Number of payments</label>
             <h3>{this.state.numberOfPayments}</h3>
           </div>
+          <hr />
           <div className="form-group">
             <label >Principal</label>
             <h3>{this.state.principal}$</h3>
           </div>
+          <hr />
         </form>
       </div>
       </div>

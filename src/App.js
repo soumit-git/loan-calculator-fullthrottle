@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <LoanCalculator  className="w-25"/>
+        <LoanCalculator  />
       </div>
     );
   }
