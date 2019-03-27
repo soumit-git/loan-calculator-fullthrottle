@@ -14,6 +14,7 @@ export default class LoanCalculator extends Component {
       principal: 0,
     };
 
+    //fetch default data on load
     Axios.get(`https://ftl-frontend-test.herokuapp.com/interest?amount=${this.state.loanAmount}&numMonths=${this.state.duration}`).then((res) => {
       this.setState({
         loanAmount: 500,
@@ -27,6 +28,7 @@ export default class LoanCalculator extends Component {
     
   }
 
+  //fetch data when loan amount slider change is completed
   handleChangeLoanAmount = (value) => {
     value = Number.parseInt(value);
     
@@ -42,6 +44,7 @@ export default class LoanCalculator extends Component {
     });
   }
 
+  //fetch data when duration slider change is completed
   handleChangeDuration = (value) => {
     value = Number.parseInt(value);
     Axios.get(`https://ftl-frontend-test.herokuapp.com/interest?amount=${this.state.loanAmount}&numMonths=${value}`).then((res) => {
